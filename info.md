@@ -8,7 +8,7 @@
 [![Community Forum][forum-shield]][forum]
 
 <p align="center">
-  <img width="128" height="128" src="https://github.com/briis/visualcrossing/blob/main/images/icon.png?raw=true">
+  <img width="128" height="128" src="https://github.com/cr0wm4n/visualcrossing/blob/main/images/icon.png?raw=true">
 </p>
 
 The Visual Crossing integration adds support for retrieving Current Weather data and Daily/Hourly Weather data from the company [Visual Crossing](https://www.visualcrossing.com/)
@@ -57,12 +57,12 @@ Once installed you can change some parameters, bly clicking on the *CONFIGURE* b
 ***
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/briis/visualcrossing.svg?style=flat-square
-[commits]: https://github.com/briis/visualcrossing/commits/main
+[commits]: https://github.com/cr0wm4n/visualcrossing/commits/main
 [hacs]: https://github.com/hacs/integration
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat-square
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=flat-square
 [forum]: https://community.home-assistant.io/
 [license-shield]: https://img.shields.io/github/license/briis/visualcrossing.svg?style=flat-square
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Bjarne%20Riis%20%40briis-blue.svg?style=flat-square
-[releases-shield]: https://img.shields.io/github/release/briis/visualcrossing.svg?style=flat-square
-[releases]: https://github.com/briis/visualcrossing/releases
+[releases-shield]: https://img.shields.io/github/release/cr0wm4n/visualcrossing.svg?style=flat-square
+[releases]: https://github.com/cr0wm4n/visualcrossing/releases
