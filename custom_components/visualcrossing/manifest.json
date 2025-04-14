@@ -2,7 +2,7 @@
     "domain": "visualcrossing",
     "name": "Visual Crossing Weather",
     "codeowners": [
-        "@briis"
+        "@cr0wm4n"
     ],
     "config_flow": true,
     "dependencies": [],
