@@ -176,9 +176,9 @@ class VCWeather(SingleCoordinatorWeatherEntity[VCDataUpdateCoordinator]):
         return self.coordinator.data.current_weather_data.visibility
 
     @property
-    def native_apparant_temperature(self) -> float | None:
+    def native_apparent_temperature(self) -> float | None:
         """Return the feelslike."""
-        return self.coordinator.data.current_weather_data.apparant_temperature
+        return self.coordinator.data.current_weather_data.apparent_temperature
 
     @property
     def extra_state_attributes(self):
@@ -202,7 +202,7 @@ class VCWeather(SingleCoordinatorWeatherEntity[VCDataUpdateCoordinator]):
                 native_precipitation = item.precipitation
                 native_pressure = item.pressure
                 native_temperature = item.temperature
-                native_apparant_temperature = item.apparant_temperature
+                native_apparent_temperature = item.apparent_temperature
                 wind_bearing = item.wind_bearing
                 native_wind_gust_speed = item.wind_gust_speed
                 native_wind_speed = item.wind_speed
@@ -216,7 +216,7 @@ class VCWeather(SingleCoordinatorWeatherEntity[VCDataUpdateCoordinator]):
                     "native_precipitation": native_precipitation,
                     "native_pressure": native_pressure,
                     "native_temperature": native_temperature,
-                    "native_apparant_temperature": native_apparant_temperature,
+                    "native_apparent_temperature": native_apparent_temperature,
                     "wind_bearing": wind_bearing,
                     "native_wind_gust_speed": native_wind_gust_speed,
                     "native_wind_speed": native_wind_speed,
