@@ -92,7 +92,7 @@ class VCWeather(SingleCoordinatorWeatherEntity[VCDataUpdateCoordinator]):
     _attr_native_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_native_precipitation_unit = UnitOfPrecipitationDepth.MILLIMETERS
     _attr_native_pressure_unit = UnitOfPressure.HPA
-    _attr_native_wind_speed_unit = UnitOfSpeed.KILOMETERS_PER_HOUR
+    _attr_native_wind_speed_unit = UnitOfSpeed.MILES_PER_HOUR
     _attr_supported_features = (
         WeatherEntityFeature.FORECAST_DAILY | WeatherEntityFeature.FORECAST_HOURLY
     )
@@ -178,7 +178,7 @@ class VCWeather(SingleCoordinatorWeatherEntity[VCDataUpdateCoordinator]):
     @property
     def native_apparant_temperature(self) -> float | None:
         """Return the feelslike."""
-        return self.coordinator.data.current_weather_data.apparent_temperature
+        return self.coordinator.data.current_weather_data.apparant_temperature
 
     @property
     def extra_state_attributes(self):
