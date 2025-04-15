@@ -30,7 +30,7 @@ Minimum required version of Home Assistant is **2023.9.0** as this integration u
 This Integration is not yet part of the default HACS store, but can still be installed through HACS.
 
 - Open HACS, click integrations, and then in the upper right corner click on the three dots.
-- Select *Custom Repositories* and in the bottom add `https://github.com/briis/visualcrossing` to the *Repository* field and under *Category* select *Integration*.
+- Select *Custom Repositories* and in the bottom add `https://github.com/cr0wm4n/visualcrossing` to the *Repository* field and under *Category* select *Integration*.
 - Close the dialog box, and you should now see the Visual Crossing integration show up in HACS as a new integration.
 - Click on it and select the DOWNLOAD button in the lower right corner.
 
@@ -84,13 +84,13 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 
 ***
 
-[commits-shield]: https://img.shields.io/github/commit-activity/y/briis/visualcrossing.svg?style=flat-square
-[commits]: https://github.com/briis/visualcrossing/commits/main
+[commits-shield]: https://img.shields.io/github/commit-activity/y/cr0wm4n/visualcrossing.svg?style=flat-square
+[commits]: https://github.com/cr0wm4n/visualcrossing/commits/main
 [hacs]: https://github.com/hacs/integration
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat-square
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=flat-square
 [forum]: https://community.home-assistant.io/
-[license-shield]: https://img.shields.io/github/license/briis/visualcrossing.svg?style=flat-square
+[license-shield]: https://img.shields.io/github/license/cr0wm4n/visualcrossing.svg?style=flat-square
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Bjarne%20Riis%20%40briis-blue.svg?style=flat-square
-[releases-shield]: https://img.shields.io/github/release/briis/visualcrossing.svg?style=flat-square
+[releases-shield]: https://img.shields.io/github/release/cr0wm4n/visualcrossing.svg?style=flat-square
 [releases]: https://github.com/briis/visualcrossing/releases
