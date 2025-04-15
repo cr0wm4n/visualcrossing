@@ -176,9 +176,9 @@ class VCWeather(SingleCoordinatorWeatherEntity[VCDataUpdateCoordinator]):
         return self.coordinator.data.current_weather_data.visibility
 
     @property
-    def native_apparant_temperature(self) -> float | None:
+    def native_apparent_temperature(self) -> float | None:
         """Return the feelslike."""
-        return self.coordinator.data.current_weather_data.apparant_temperature
+        return self.coordinator.data.current_weather_data.apparent_temperature
 
     @property
     def extra_state_attributes(self):
