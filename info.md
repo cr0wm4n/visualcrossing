@@ -63,6 +63,6 @@ Once installed you can change some parameters, bly clicking on the *CONFIGURE* b
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=flat-square
 [forum]: https://community.home-assistant.io/
 [license-shield]: https://img.shields.io/github/license/cr0wm4n/visualcrossing.svg?style=flat-square
-[maintenance-shield]: https://img.shields.io/badge/maintainer-Bjarne%20Riis%20%40briis-blue.svg?style=flat-square
+[maintenance-shield]: https://img.shields.io/badge/maintainer-cr0wm4n%20hotmail%20%40briis-blue.svg?style=flat-square
 [releases-shield]: https://img.shields.io/github/release/cr0wm4n/visualcrossing.svg?style=flat-square
 [releases]: https://github.com/cr0wm4n/visualcrossing/releases
