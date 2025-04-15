@@ -12,5 +12,5 @@
     "requirements": [
         "pyVisualCrossing@git+https://github.com/cr0wm4n/pyVisualCrossing"
     ],
-    "version": "0.1.6.3"
+    "version": "0.1.6.03"
 }
