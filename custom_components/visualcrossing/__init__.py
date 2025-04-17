@@ -7,7 +7,7 @@ from random import randrange
 from types import MappingProxyType
 from typing import Any, Self
 
-from pyVisualCrossing import (
+from pyVisualCrossingUK import (
     VisualCrossing,
     ForecastData,
     ForecastDailyData,
