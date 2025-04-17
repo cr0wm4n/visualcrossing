@@ -16,6 +16,17 @@ from homeassistant.components.weather import (
 
 ATTR_DESCRIPTION = "description"
 ATTR_LAST_UPDATED = "last_updated"
+ATTR_DATETIMEEPOCH = "datetimeepoch"
+ATTR_SNOW = "snow"
+ATTR_SNOW_DEPTH = "snow_depth"
+ATTR_PRECIPITATION_TYPE = "precipitation_type"
+ATTR_SOLAR_ENERGY = "solar_energy"
+ATTR_SEVERE_RISK = "severe_risk"
+ATTR_SUNRISE = "sunrise"
+ATTR_SUNSET = "sunset"
+ATTR_MOONPHASE = "moonphase"
+
+
 
 CONF_DAYS = "days"
 
