@@ -29,7 +29,22 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util.unit_system import METRIC_SYSTEM
 
 from . import VCDataUpdateCoordinator
-from .const import ATTR_DESCRIPTION, ATTR_LAST_UPDATED, CONDITIONS_MAP, DOMAIN
+from .const import { 
+    ATTR_DESCRIPTION, 
+    ATTR_LAST_UPDATED, 
+    CONDITIONS_MAP, 
+    DOMAIN,
+    ATTR_DATETIMEEPOCH,
+    ATTR_SNOW,
+    ATTR_SNOW_DEPTH,
+    ATTR_PRECIPITATION_TYPE,
+    ATTR_SOLAR_RADIATION,
+    ATTR_SOLAR_ENERGY,
+    ATTR_SEVERE_RISK,
+    ATTR_SUNRISE,
+    ATTR_SUNSET,
+    ATTR_MOONPHASE
+}
 
 DEFAULT_NAME = "Visual Crossing Weather"
 
@@ -186,6 +201,16 @@ class VCWeather(SingleCoordinatorWeatherEntity[VCDataUpdateCoordinator]):
         return {
             ATTR_DESCRIPTION: self.coordinator.data.current_weather_data.description,
             ATTR_LAST_UPDATED: self.coordinator.data.current_weather_data.datetime.isoformat(),
+            ATTR_DATETIMEEPOCH: self.coordinator.data.current_weather_data.datetimeepoch,
+            ATTR_SNOW: self.coordinator.data.current_weather_data.snow,
+            ATTR_SNOW_DEPTH: self.coordinator.data.current_weather_data.snow_depth,
+            ATTR_PRECIPITATION_TYPE: self.coordinator.data.current_weather_data.precipitation_type,
+            ATTR_SOLAR_RADIATION: self.coordinator.data.current_weather_data.solar_radiation,
+            ATTR_SOLAR_ENERGY: self.coordinator.data.current_weather_data.solar_energy,
+            ATTR_SEVERE_RISK: self.coordinator.data.current_weather_data.severe_risk,
+            ATTR_SUNRISE: self.coordinator.data.current_weather_data.sunrise,
+            ATTR_SUNSET: self.coordinator.data.current_weather_data.sunset,
+            ATTR_MOONPHASE: self.coordinator.data.current_weather_data.moonphase,
         }
 
     def _forecast(self, hourly: bool) -> list[Forecast] | None:
