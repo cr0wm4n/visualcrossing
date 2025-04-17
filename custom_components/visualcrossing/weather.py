@@ -43,7 +43,7 @@ from .const import {
     ATTR_SEVERE_RISK,
     ATTR_SUNRISE,
     ATTR_SUNSET,
-    ATTR_MOONPHASE
+    ATTR_MOONPHASE,
 }
 
 DEFAULT_NAME = "Visual Crossing Weather"
