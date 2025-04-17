@@ -30,9 +30,9 @@ from homeassistant.util.unit_system import METRIC_SYSTEM
 
 from . import VCDataUpdateCoordinator
 from .const import ( 
-    ATTR_DESCRIPTION, 
-    ATTR_LAST_UPDATED, 
-    CONDITIONS_MAP, 
+    ATTR_DESCRIPTION,
+    ATTR_LAST_UPDATED,
+    CONDITIONS_MAP,
     DOMAIN,
     ATTR_DATETIMEEPOCH,
     ATTR_SNOW,
