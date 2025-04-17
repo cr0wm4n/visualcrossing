@@ -16,7 +16,7 @@ from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
-from pyVisualCrossing import (
+from pyVisualCrossingUK import (
     VisualCrossing,
     VisualCrossingBadRequest,
     VisualCrossingInternalServerError,
