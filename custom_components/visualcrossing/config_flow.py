@@ -32,8 +32,6 @@ from .const import (
     DOMAIN,
     CONF_DAYS,
     CONF_TIMEZONE,
-    DEFAULT_LATITUDE,
-    DEFAULT_LONGITUDE,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -66,8 +64,6 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
         try:
             vc_api = VisualCrossing(
                 user_input[CONF_API_KEY],
-                user_input[CONF_VC_LATITUDE],
-                user_input[CONF_VC_LATITUDE],
                 days=1,
                 session=session,
             )
@@ -92,7 +88,7 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
             return await self._show_setup_form(errors)
 
         await self.async_set_unique_id(
-            f"{user_input[CONF_VC_LATITUDE]}-{user_input[CONF_VC_LONGITUDE]}"
+            f"{user_input[CONF_LATITUDE]}-{user_input[CONF_LONGITUDE]}"
         )
         self._abort_if_unique_id_configured
 
@@ -101,8 +97,6 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data={
                 CONF_NAME: user_input[CONF_NAME],
                 CONF_API_KEY: user_input[CONF_API_KEY],
-                CONF_VC_LATITUDE: user_input[CONF_VC_LATITUDE],
-                CONF_VC_LONGITUDE: user_input[CONF_VC_LONGITUDE],
             },
             options={
                 CONF_DAYS: DEFAULT_DAYS,
@@ -118,12 +112,6 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 {
                     vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
                     vol.Required(CONF_API_KEY): str,
-                    vol.Required(
-                        CONF_VC_LATITUDE, default=self.hass.config.latitude
-                    ): cv.latitude,
-                    vol.Required(
-                        CONF_VC_LONGITUDE, default=self.hass.config.longitude
-                    ): cv.longitude,
                 }
             ),
             errors=errors or {},
@@ -152,18 +140,6 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Required(
                         CONF_NAME,
                         default=self._config_entry.data.get(CONF_NAME, DEFAULT_NAME),
-                    ): str,
-                    vol.Required(
-                        CONF_VC_LATITUDE,
-                        default=self._config_entry.data.get(CONF_VC_LATITUDE, DEFAULT_LATITUDE),
-                    ): float,
-                    vol.Required(
-                        CONF_VC_LONGITUDE,
-                        default=self._config_entry.data.get(CONF_VC_LONGITUDE, DEFAULT_LONGITUDE),
-                    ): float,
-                    vol.Required(
-                        CONF_TIMEZONE,
-                        default=self._config_entry.data.get(CONF_TIMEZONE, self.hass.config.time_zone),
                     ): str,
                     vol.Optional(
                         CONF_LANGUAGE,
