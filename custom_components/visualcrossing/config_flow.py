@@ -23,6 +23,7 @@ from pyVisualCrossingUK import (
     VisualCrossingTooManyRequests,
     VisualCrossingUnauthorized,
     SUPPORTED_LANGUAGES,
+    SUPPORTED_UNIT_GROUPS,
 )
 
 from .const import (
@@ -32,6 +33,7 @@ from .const import (
     DOMAIN,
     CONF_DAYS,
     CONF_TIMEZONE,
+    DEFAULT_UNIT_GROUP,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -104,6 +106,7 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
             options={
                 CONF_DAYS: DEFAULT_DAYS,
                 CONF_LANGUAGE: DEFAULT_LANGUAGE,
+                CONF_UNIT_GROUP: DEFAULT_UNIT_GROUP,
             },
         )
 
@@ -121,6 +124,8 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Required(
                         CONF_LONGITUDE, default=self.hass.config.longitude
                     ): cv.longitude,
+                    vol.Required(CONF_UNIT_GROUP, default=DEFAULT_UNIT_GROUP): str,
+
                 }
             ),
             errors=errors or {},
@@ -154,6 +159,10 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_LANGUAGE,
                         default=self._config_entry.options.get(CONF_LANGUAGE, DEFAULT_LANGUAGE),
                     ): vol.In(SUPPORTED_LANGUAGES),
+                    vol.Optional(
+                        CONF_UNIT_GROUP,
+                        default=self._config_entry.options.get(CONF_UNIT_GROUP, DEFAULT_UNIT_GROUP),
+                    ): vol.In(SUPPORTED_UNIT_GROUPS),
                     vol.Optional(
                         CONF_DAYS,
                         default=self._config_entry.options.get(CONF_DAYS, DEFAULT_DAYS),
