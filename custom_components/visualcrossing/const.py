@@ -28,7 +28,7 @@ ATTR_SUNSET = "sunset"
 ATTR_MOONPHASE = "moonphase"
 
 CONF_UNIT_GROUPS = ["us", "metric", "uk"]
-
+CONF_TIMEZONE = "time_zone"
 CONF_DAYS = "days"
 
 DEFAULT_DAYS = 7
