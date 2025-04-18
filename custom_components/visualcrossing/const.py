@@ -29,8 +29,8 @@ ATTR_MOONPHASE = "moonphase"
 
 CONF_UNIT_GROUPS = ["us", "metric", "uk"]
 CONF_TIMEZONE = "time_zone"
-CONF_VC_LATITUDE = "latitude"
-CONF_VC_LONGITUDE = "longitude"
+CONF_VC_LATITUDE = 0
+CONF_VC_LONGITUDE = 0
 CONF_DAYS = "days"
 
 DEFAULT_DAYS = 7
