@@ -150,9 +150,13 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_NAME,
                         default=self._config_entry.data.get(CONF_NAME, DEFAULT_NAME),
                     ): str,
-                    vol.Optional(
+                    vol.Required(
                         CONF_LATITUDE,
                         default=self._config_entry.data.get(CONF_LATITUDE, self.hass.config.latitude),
+                    ): str,
+                    vol.Required(
+                        CONF_LONGITUDE,
+                        default=self._config_entry.data.get(CONF_LONGITUDE, self.hass.config.longitude),
                     ): str,
                     vol.Optional(
                         CONF_LANGUAGE,
