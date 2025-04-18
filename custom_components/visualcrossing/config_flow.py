@@ -31,6 +31,7 @@ from .const import (
     DEFAULT_NAME,
     DOMAIN,
     CONF_DAYS,
+    CONF_TIMEZONE,
     CONF_UNIT_GROUPS,
 )
 
