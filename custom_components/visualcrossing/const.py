@@ -34,6 +34,7 @@ CONF_DAYS = "days"
 
 DEFAULT_DAYS = 7
 DEFAULT_LANGUAGE = "en"
+DEFAULT_UNIT_GROUP = "uk"
 DEFAULT_NAME = "Home"
 DOMAIN = "visualcrossing"
 
