@@ -16,11 +16,13 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_LATITUDE,
     CONF_LONGITUDE,
+    PRECISION_TENTHS,
     CONF_NAME,
     UnitOfPrecipitationDepth,
     UnitOfPressure,
     UnitOfSpeed,
     UnitOfTemperature,
+    UnitOfLength,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import entity_registry as er
@@ -106,8 +108,10 @@ class VCWeather(SingleCoordinatorWeatherEntity[VCDataUpdateCoordinator]):
     _attr_has_entity_name = True
     _attr_native_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_native_precipitation_unit = UnitOfPrecipitationDepth.MILLIMETERS
-    _attr_native_pressure_unit = UnitOfPressure.HPA
+    _attr_native_pressure_unit = UnitOfPressure.MBAR
     _attr_native_wind_speed_unit = UnitOfSpeed.MILES_PER_HOUR
+    _attr_native_visibilty_unit = UnitOfLength.MILES
+    _attr_precision = PRECISION_TENTHS
     _attr_supported_features = (
         WeatherEntityFeature.FORECAST_DAILY | WeatherEntityFeature.FORECAST_HOURLY
     )
