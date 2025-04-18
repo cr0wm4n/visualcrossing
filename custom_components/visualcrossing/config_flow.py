@@ -166,7 +166,7 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         CONF_UNIT_GROUP,
                         default=self._config_entry.data.get(CONF_UNIT_GROUP, default="uk"):selector.SelectSelector(
-                            selector.SelectSelectorConfig(options=VC_UNIT_GROUP, mode=selector.SelectSelectorMode.DROPDOWN),
+                            selector.SelectSelectorConfig(options=VC_UNIT_GROUPS, mode=selector.SelectSelectorMode.DROPDOWN),
                     ): str,
                     vol.Optional(
                         CONF_LANGUAGE,
