@@ -122,7 +122,7 @@ class VCWeatherData:
             self._config[CONF_LONGITUDE],
             days=self._options[CONF_DAYS],
             language=self._options[CONF_LANGUAGE],
-            unitgroup=self.options[CONF_UNIT_GROUP],
+            unitgroup=self._options[CONF_UNIT_GROUP],
             session=async_get_clientsession(self.hass),
         )
 
