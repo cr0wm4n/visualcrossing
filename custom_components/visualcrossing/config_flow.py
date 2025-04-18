@@ -32,7 +32,7 @@ from .const import (
     DOMAIN,
     CONF_DAYS,
     CONF_TIMEZONE,
-    CONF_VC_LATITIDE,
+    CONF_VC_LATITUDE,
     CONF_VC_LONGITUDE,
 )
 
