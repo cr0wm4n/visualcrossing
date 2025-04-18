@@ -27,7 +27,7 @@ ATTR_SUNRISE = "sunrise"
 ATTR_SUNSET = "sunset"
 ATTR_MOONPHASE = "moonphase"
 
-VC_UNIT_GROUPS = ["us", "metric", "uk"]
+CONF_UNIT_GROUPS = ["us", "metric", "uk"]
 
 CONF_DAYS = "days"
 
