@@ -32,7 +32,6 @@ from .const import (
     DOMAIN,
     CONF_DAYS,
     CONF_TIMEZONE,
-    CONF_UNIT_GROUPS,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -164,10 +163,6 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_TIMEZONE,
                         default=self._config_entry.data.get(CONF_TIMEZONE, self.hass.config.time_zone),
                     ): str,
-                    vol.Optional(
-                        CONF_UNIT_GROUP, 
-                        default=False):selector.SelectSelector(selector.SelectSelectorConfig(options=CONF_UNIT_GROUPS, mode=selector.SelectSelectorMode.DROPDOWN),
-                    ),
                     vol.Optional(
                         CONF_LANGUAGE,
                         default=self._config_entry.options.get(CONF_LANGUAGE, DEFAULT_LANGUAGE),
