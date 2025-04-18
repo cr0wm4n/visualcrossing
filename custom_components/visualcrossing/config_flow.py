@@ -32,8 +32,8 @@ from .const import (
     DOMAIN,
     CONF_DAYS,
     CONF_TIMEZONE,
-    CONF_VC_LATITUDE,
-    CONF_VC_LONGITUDE,
+    DEFAULT_LATITUDE,
+    DEFAULT_LONGITUDE,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -155,11 +155,11 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                     ): str,
                     vol.Required(
                         CONF_VC_LATITUDE,
-                        default=self._config_entry.data.get(CONF_VC_LATITUDE, self.hass.config.latitude),
+                        default=self._config_entry.data.get(CONF_VC_LATITUDE, DEFAULT_LATITUDE),
                     ): float,
                     vol.Required(
                         CONF_VC_LONGITUDE,
-                        default=self._config_entry.data.get(CONF_VC_LONGITUDE, self.hass.config.longitude),
+                        default=self._config_entry.data.get(CONF_VC_LONGITUDE, DEFAULT_LONGITUDE),
                     ): float,
                     vol.Required(
                         CONF_TIMEZONE,
