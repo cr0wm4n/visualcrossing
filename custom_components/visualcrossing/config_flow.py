@@ -154,11 +154,11 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Required(
                         CONF_LATITUDE,
                         default=self._config_entry.data.get(CONF_LATITUDE, self.hass.config.latitude),
-                    ): str,
+                    ): float,
                     vol.Required(
                         CONF_LONGITUDE,
                         default=self._config_entry.data.get(CONF_LONGITUDE, self.hass.config.longitude),
-                    ): str,
+                    ): float,
                     vol.Required(
                         CONF_TIMEZONE,
                         default=self._config_entry.data.get(CONF_TIMEZONE, self.hass.config.time_zone),
