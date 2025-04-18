@@ -29,7 +29,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util.unit_system import METRIC_SYSTEM
 
 from . import VCDataUpdateCoordinator
-from .const import ( 
+from .const import (
     ATTR_DESCRIPTION,
     ATTR_LAST_UPDATED,
     CONDITIONS_MAP,
