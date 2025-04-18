@@ -158,6 +158,10 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_LONGITUDE,
                         default=self._config_entry.data.get(CONF_LONGITUDE, self.hass.config.longitude),
                     ): str,
+                    vol.Required(
+                        CONF_TIMEZONE,
+                        default=self._config_entry.data.get(CONF_TIMEZONE, self.hass.config.time_zone),
+                    ): str,
                     vol.Optional(
                         CONF_LANGUAGE,
                         default=self._config_entry.options.get(CONF_LANGUAGE, DEFAULT_LANGUAGE),
