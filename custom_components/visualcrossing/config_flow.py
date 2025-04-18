@@ -1,154 +1,175 @@
-"""Visual Crossing Weather Platform."""
+"""Config flow to configure Visual Crossing component."""
 from __future__ import annotations
 
-from datetime import timedelta
 import logging
-from random import randrange
-from types import MappingProxyType
-from typing import Any, Self
-
-from pyVisualCrossingUK import (
-    VisualCrossing,
-    ForecastData,
-    ForecastDailyData,
-    ForecastHourlyData,
-    VisualCrossingTooManyRequests,
-    VisualCrossingBadRequest,
-    VisualCrossingInternalServerError,
-    VisualCrossingUnauthorized,
-)
-
-from homeassistant.config_entries import ConfigEntry
+import voluptuous as vol
+from typing import Any
+from homeassistant import config_entries
 from homeassistant.const import (
-    Platform,
     CONF_API_KEY,
     CONF_LANGUAGE,
     CONF_LATITUDE,
     CONF_LONGITUDE,
+    CONF_NAME,
 )
-from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import HomeAssistantError, ConfigEntryNotReady
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.core import callback
+from homeassistant.data_entry_flow import FlowResult
+import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers.aiohttp_client import async_create_clientsession
+from pyVisualCrossingUK import (
+    VisualCrossing,
+    VisualCrossingBadRequest,
+    VisualCrossingInternalServerError,
+    VisualCrossingTooManyRequests,
+    VisualCrossingUnauthorized,
+    SUPPORTED_LANGUAGES,
+    SUPPORTED_UNIT_GROUPS,
+)
 
-from .const import DOMAIN, CONF_DAYS
-
-PLATFORMS = [Platform.WEATHER]
-
+from .const import (
+    DEFAULT_DAYS,
+    DEFAULT_LANGUAGE,
+    DEFAULT_NAME,
+    DOMAIN,
+    CONF_DAYS,
+    CONF_UNIT_GROUP,
+    CONF_TIMEZONE,
+    DEFAULT_UNIT_GROUP,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
-    """Set up Visual Crossing as config entry."""
 
-    coordinator = VCDataUpdateCoordinator(hass, config_entry)
-    await coordinator.async_config_entry_first_refresh()
+class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
+    """Config Flow for WeatherFlow Forecast."""
 
-    hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][config_entry.entry_id] = coordinator
+    VERSION = 1
 
-    config_entry.async_on_unload(config_entry.add_update_listener(async_update_entry))
+    @staticmethod
+    @callback
+    def async_get_options_flow(
+        config_entry: config_entries.ConfigEntry,
+    ) -> config_entries.OptionsFlow:
+        """Get the options flow for WeatherFlow Forecast."""
+        return VCOptionsFlowHandler(config_entry)
 
-    await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
+    async def async_step_user(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Handle a flow initialized by the user."""
+        errors = {}
 
-    return True
+        if user_input is None:
+            return await self._show_setup_form(user_input)
 
+        session = async_create_clientsession(self.hass)
 
-async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
-    """Unload a config entry."""
-    unload_ok = await hass.config_entries.async_unload_platforms(
-        config_entry, PLATFORMS
-    )
-
-    hass.data[DOMAIN].pop(config_entry.entry_id)
-
-    return unload_ok
-
-
-async def async_update_entry(hass: HomeAssistant, config_entry: ConfigEntry):
-    """Reload Visual Crossing component when options changed."""
-    await hass.config_entries.async_reload(config_entry.entry_id)
-
-
-class CannotConnect(HomeAssistantError):
-    """Unable to connect to the web site."""
-
-
-class VCDataUpdateCoordinator(DataUpdateCoordinator["VCWeatherData"]):
-    """Class to manage fetching Visual Crossing data."""
-
-    def __init__(self, hass: HomeAssistant, config_entry: ConfigEntry) -> None:
-        """Initialize global Visual Crossing data updater."""
-        # self._unsub_track_home: Callable[[], None] | None = None
-        self.weather = VCWeatherData(hass, config_entry.data, config_entry.options)
-        self.weather.initialize_data()
-
-        update_interval = timedelta(minutes=randrange(31, 32))
-
-        super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=update_interval)
-
-    async def _async_update_data(self) -> VCWeatherData:
-        """Fetch data from Visual Crossing."""
         try:
-            return await self.weather.fetch_data()
-        except Exception as err:
-            raise UpdateFailed(f"Update failed: {err}") from err
+            vc_api = VisualCrossing(
+                user_input[CONF_API_KEY],
+                user_input[CONF_LATITUDE],
+                user_input[CONF_LATITUDE],
+                user_input[CONF_UNIT_GROUP],
+                days=1,
+                session=session,
+            )
 
+            await vc_api.async_fetch_data()
 
-class VCWeatherData:
-    """Keep data for Visual Crossing entity data."""
-
-    def __init__(
-        self,
-        hass: HomeAssistant,
-        config: MappingProxyType[str, Any],
-        options: MappingProxyType[str, Any],
-    ) -> None:
-        """Initialise the weather entity data."""
-        self.hass = hass
-        self._config = config
-        self._options = options
-        self._weather_data: VisualCrossing
-        self.current_weather_data: ForecastData = {}
-        self.daily_forecast: ForecastDailyData = []
-        self.hourly_forecast: ForecastHourlyData = []
-
-    def initialize_data(self) -> bool:
-        """Establish connection to API."""
-        self._weather_data = VisualCrossing(
-            self._config[CONF_API_KEY],
-            self._config[CONF_LATITUDE],
-            self._config[CONF_LONGITUDE],
-            days=self._options[CONF_DAYS],
-            language=self._options[CONF_LANGUAGE],
-            session=async_get_clientsession(self.hass),
-        )
-
-        return True
-
-    async def fetch_data(self) -> Self:
-        """Fetch data from API - (current weather and forecast)."""
-        _LOGGER.debug("Refreshing Weather Data from Visual Crossing")
-        try:
-            resp: ForecastData = await self._weather_data.async_fetch_data()
-        except VisualCrossingUnauthorized as notreadyerror:
-            _LOGGER.debug(notreadyerror)
-            raise ConfigEntryNotReady from notreadyerror
+        except VisualCrossingUnauthorized as err:
+            _LOGGER.debug(err)
+            errors["base"] = "unauthorized"
+            return await self._show_setup_form(errors)
         except VisualCrossingBadRequest as err:
             _LOGGER.debug(err)
-            return False
-        except VisualCrossingInternalServerError as notreadyerror:
-            _LOGGER.debug(notreadyerror)
-            raise ConfigEntryNotReady from notreadyerror
+            errors["base"] = "bad_request"
+            return await self._show_setup_form(errors)
+        except VisualCrossingInternalServerError as err:
+            _LOGGER.debug(err)
+            errors["base"] = "server_error"
+            return await self._show_setup_form(errors)
         except VisualCrossingTooManyRequests as err:
             _LOGGER.debug(err)
-            return False
+            errors["base"] = "too_many"
+            return await self._show_setup_form(errors)
+
+        await self.async_set_unique_id(
+            f"{user_input[CONF_LATITUDE]}-{user_input[CONF_LONGITUDE]}"
+        )
+        self._abort_if_unique_id_configured
+
+        return self.async_create_entry(
+            title=user_input[CONF_NAME],
+            data={
+                CONF_NAME: user_input[CONF_NAME],
+                CONF_API_KEY: user_input[CONF_API_KEY],
+                CONF_LATITUDE: user_input[CONF_LATITUDE],
+                CONF_LONGITUDE: user_input[CONF_LONGITUDE],            },
+            options={
+                CONF_DAYS: DEFAULT_DAYS,
+                CONF_LANGUAGE: DEFAULT_LANGUAGE,
+                CONF_UNIT_GROUP: DEFAULT_UNIT_GROUP,
+            },
+        )
+
+    async def _show_setup_form(self, errors=None):
+        """Show the setup form to the user."""
+        return self.async_show_form(
+            step_id="user",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
+                    vol.Required(CONF_API_KEY): str,
+                    vol.Required(
+                        CONF_LATITUDE, default=self.hass.config.latitude
+                    ): cv.latitude,
+                    vol.Required(
+                        CONF_LONGITUDE, default=self.hass.config.longitude
+                    ): cv.longitude,
+                    vol.Required(CONF_UNIT_GROUP, default=DEFAULT_UNIT_GROUP): str,
+
+                }
+            ),
+            errors=errors or {},
+        )
 
 
-        if not resp:
-            raise CannotConnect()
-        self.current_weather_data = resp
-        self.daily_forecast = resp.forecast_daily
-        self.hourly_forecast = resp.forecast_hourly
-        return self
+class VCOptionsFlowHandler(config_entries.OptionsFlow):
+    """Options Flow for WeatherFlow Forecast component."""
+
+    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+        """Initialize the WeatherFlow Forecast Options Flows."""
+        self._config_entry = config_entry
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Configure Options for WeatherFlow Forecast."""
+
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_NAME,
+                        default=self._config_entry.data.get(CONF_NAME, DEFAULT_NAME),
+                    ): str,
+                    vol.Optional(
+                        CONF_LANGUAGE,
+                        default=self._config_entry.options.get(CONF_LANGUAGE, DEFAULT_LANGUAGE),
+                    ): vol.In(SUPPORTED_LANGUAGES),
+                    vol.Optional(
+                        CONF_UNIT_GROUP,
+                        default=self._config_entry.options.get(CONF_UNIT_GROUP, DEFAULT_UNIT_GROUP),
+                    ): vol.In(SUPPORTED_UNIT_GROUPS),
+                    vol.Optional(
+                        CONF_DAYS,
+                        default=self._config_entry.options.get(CONF_DAYS, DEFAULT_DAYS),
+                    ): vol.All(vol.Coerce(int), vol.Range(min=1, max=14)),
+                }
+            ),
+        )
