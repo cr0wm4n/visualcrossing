@@ -64,6 +64,8 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
         try:
             vc_api = VisualCrossing(
                 user_input[CONF_API_KEY],
+                user_input[CONF_LATITUDE],
+                user_input[CONF_LATITUDE],
                 days=1,
                 session=session,
             )
@@ -97,7 +99,8 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data={
                 CONF_NAME: user_input[CONF_NAME],
                 CONF_API_KEY: user_input[CONF_API_KEY],
-            },
+                CONF_LATITUDE: user_input[CONF_LATITUDE],
+                CONF_LONGITUDE: user_input[CONF_LONGITUDE],            },
             options={
                 CONF_DAYS: DEFAULT_DAYS,
                 CONF_LANGUAGE: DEFAULT_LANGUAGE,
@@ -112,6 +115,12 @@ class VCHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 {
                     vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
                     vol.Required(CONF_API_KEY): str,
+                    vol.Required(
+                        CONF_LATITUDE, default=self.hass.config.latitude
+                    ): cv.latitude,
+                    vol.Required(
+                        CONF_LONGITUDE, default=self.hass.config.longitude
+                    ): cv.longitude,
                 }
             ),
             errors=errors or {},
