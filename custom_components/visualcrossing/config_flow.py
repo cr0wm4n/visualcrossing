@@ -163,7 +163,7 @@ class VCOptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_TIMEZONE,
                         default=self._config_entry.data.get(CONF_TIMEZONE, self.hass.config.time_zone),
                     ): str,
-                    vol.Required(
+                    vol.Optional(
                         CONF_UNIT_GROUP,
                         default=self._config_entry.data.get(CONF_UNIT_GROUP, default="uk"):selector.SelectSelector(
                             selector.SelectSelectorConfig(options=VC_UNIT_GROUP, mode=selector.SelectSelectorMode.DROPDOWN),
